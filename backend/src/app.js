@@ -1,0 +1,35 @@
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+const passport = require('passport');
+
+require('dotenv').config();
+
+const authRoutes = require('./routes/auth');
+const apiRoutes = require('./routes/api');
+const rateLimiter = require('./middlewares/rateLimiter');
+
+const app = express();
+
+// Middlewares
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({ origin: process.env.FRONTEND_URL }));
+app.use(morgan('dev'));
+
+app.use(passport.initialize());
+require('./config/passport')(passport);
+
+// Routes
+app.use('/auth', authRoutes);
+app.use('/api', rateLimiter, apiRoutes);
+
+app.get('/', (req, res) => res.json({ ok: true, message: 'AutoPortfolio API' }));
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({ ok: false, error: err.message || 'Server error' });
+});
+
+module.exports = app;
