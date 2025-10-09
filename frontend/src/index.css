@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root { height: 100%; }
+html, body, #root {
+  height: 100%;
+  background: linear-gradient(to bottom right, #1e1b4b, #312e81);
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
 
-body {
-  @apply bg-gradient-to-br from-slate-900 via-indigo-800 to-purple-700 text-white;
+button {
+  @apply transition-all duration-200 hover:scale-105;
 }
