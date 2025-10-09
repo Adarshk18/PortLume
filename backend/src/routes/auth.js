@@ -3,15 +3,15 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
-// GitHub OAuth start
+// Redirect to GitHub OAuth
 router.get('/github', passport.authenticate('github', { scope: ['user:email', 'repo'] }));
 
-// GitHub OAuth callback
+// Callback
 router.get(
   '/github/callback',
   passport.authenticate('github', { session: false, failureRedirect: '/auth/failure' }),
   (req, res) => {
-    // issue JWT and redirect to frontend with token param
+    // Issue JWT and redirect to frontend with token
     const payload = { id: req.user._id };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' });
     const redirect = `${process.env.FRONTEND_URL}/auth/success?token=${token}`;
