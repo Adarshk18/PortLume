@@ -1,4 +1,4 @@
-const pdf = require('pdf-parse'); // lightweight parser; you must `npm i pdf-parse` if used
+const pdf = require('pdf-parse-fixed'); // lightweight parser; you must `npm i pdf-parse` if used
 // NOTE: pdf-parse is optional. For this repo we will fallback to text-extraction from buffer.
 
 module.exports = {
