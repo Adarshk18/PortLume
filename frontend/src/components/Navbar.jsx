@@ -1,65 +1,64 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React, { useState } from "react";
+import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
-  const loggedIn = Boolean(localStorage.getItem('ap_token'))
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const logout = () => {
-    localStorage.removeItem('ap_token')
-    window.location.href = '/'
-  }
+  const navItems = ["Features", "Pricing", "Examples", "Dashboard"];
 
   return (
-    <motion.nav
-      className="flex items-center justify-between p-4 bg-white/10 backdrop-blur-md rounded-b-2xl shadow-md sticky top-0 z-50"
-      initial={{ y: -40, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6 }}
-    >
-      {/* Logo / Title */}
-      <div
-        onClick={() => (window.location.href = '/')}
-        className="text-xl font-bold cursor-pointer hover:text-indigo-300 transition-colors"
-      >
-        ⚡ AutoPortfolio AI
-      </div>
+    <nav className="fixed top-0 left-0 w-full z-50 bg-transparent border-b border-white/10 backdrop-blur-xl">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-8 py-5">
+        {/* 🌟 Logo */}
+        <div className="flex items-center gap-2 cursor-pointer select-none">
+          <span className="text-cyan-400 text-2xl font-bold tracking-tight">
+            Autoportfolio
+          </span>
+          <span className="text-white/90 text-2xl font-bold tracking-tight">
+            AI
+          </span>
+        </div>
 
-      {/* Nav Buttons */}
-      <div className="flex gap-3">
-        {loggedIn ? (
-          <>
-            <a
-              href="/edit"
-              className="bg-indigo-500 px-3 py-2 rounded-md hover:bg-indigo-600 transition-all duration-200"
-            >
-              Dashboard
-            </a>
-
-            <a
-              href="/analytics"
-              className="bg-purple-500 px-3 py-2 rounded-md hover:bg-purple-600 transition-all duration-200"
-            >
-              Analytics
-            </a>
-
+        {/* 🧭 Desktop Menu */}
+        <div className="hidden md:flex items-center gap-10 text-sm font-medium">
+          {navItems.map((item) => (
             <button
-              onClick={logout}
-              className="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600 transition-all duration-200"
+              key={item}
+              className="text-gray-300 hover:text-white transition-colors duration-200"
             >
-              Logout
+              {item}
             </button>
-          </>
-        ) : (
-          <a
-            href={`${
-              import.meta.env.VITE_API_URL || 'http://localhost:5000'
-            }/auth/github`}
-            className="bg-green-500 px-3 py-2 rounded-md hover:bg-green-600 transition-all duration-200"
-          >
-            Sign in with GitHub
-          </a>
-        )}
+          ))}
+          <button className="ml-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-white px-5 py-2 rounded-md shadow-lg font-semibold transition-all duration-300">
+            Sign In
+          </button>
+        </div>
+
+        {/* 📱 Mobile Menu Button */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden p-2 text-cyan-300 hover:text-cyan-100 transition-all"
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
-    </motion.nav>
-  )
+
+      {/* 📱 Mobile Dropdown */}
+      {menuOpen && (
+        <div className="md:hidden flex flex-col bg-[#0b1120]/95 backdrop-blur-lg border-t border-white/10 py-5 px-8 space-y-4 text-sm">
+          {navItems.map((item) => (
+            <button
+              key={item}
+              className="text-left text-gray-300 hover:text-white transition-all duration-200"
+            >
+              {item}
+            </button>
+          ))}
+          <button className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-white px-4 py-2 rounded-md shadow-md text-center">
+            Sign In
+          </button>
+        </div>
+      )}
+    </nav>
+  );
 }
