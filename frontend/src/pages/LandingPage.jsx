@@ -11,16 +11,10 @@ const LandingPage = () => {
           <span className="logo-icon">🤖</span> PortLume AI
         </div>
 
-        <button
-          className="menu-toggle" 
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle navigation menu"
-        >
-          ☰
-        </button>
+        
 
         <ul className={`navbar-links ${menuOpen ? 'open' : ''}`}>
-          <li><a href="">Dashboard</a></li>
+          <li><a href="/dashboard">Dashboard</a></li>
           <li><a href="#features">Features</a></li>
           <li><a href="#about">About Us</a></li>
           <li><a href="#contact">Contact</a></li>
