@@ -1,5 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
@@ -8,9 +14,10 @@ import PublicProfile from './pages/PublicProfile';
 import Analytics from './pages/Analytics';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
+import Login from './pages/Login'; // 👈 Added Login page
 import './App.css';
 
-// Scroll restoration on route change
+// ✅ Scroll restoration on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
   React.useEffect(() => {
@@ -19,7 +26,7 @@ function ScrollToTop() {
   return null;
 }
 
-// Animation wrapper for route transitions
+// ✅ Animated route transitions
 const PageTransition = ({ children }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -35,15 +42,20 @@ const PageTransition = ({ children }) => (
 function AnimatedRoutes() {
   const location = useLocation();
 
-  // Define which routes should hide the Navbar (e.g., public profiles)
-  const hideNavbar = location.pathname.startsWith('/public/');
+  // Hide navbar on public profile or auth pages
+  const hideNavbar =
+    location.pathname.startsWith('/public/') ||
+    location.pathname.startsWith('/login') ||
+    location.pathname.startsWith('/auth');
 
   return (
     <>
       {!hideNavbar && <Navbar />}
       <ScrollToTop />
+
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
+          {/* Public Routes */}
           <Route
             path="/"
             element={
@@ -52,6 +64,33 @@ function AnimatedRoutes() {
               </PageTransition>
             }
           />
+          <Route
+            path="/login"
+            element={
+              <PageTransition>
+                <Login />
+              </PageTransition>
+            }
+          />
+          {/* OAuth redirect from backend */}
+          <Route
+            path="/auth/success"
+            element={
+              <PageTransition>
+                <Login /> {/* Reuses Login to capture ?token and redirect */}
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/public/:username"
+            element={
+              <PageTransition>
+                <PublicProfile />
+              </PageTransition>
+            }
+          />
+
+          {/* Protected Routes */}
           <Route
             path="/dashboard"
             element={
@@ -63,21 +102,13 @@ function AnimatedRoutes() {
             }
           />
           <Route
-            path="/profile"
+            path="/profile/edit"
             element={
               <ProtectedRoute>
                 <PageTransition>
                   <ProfileEditor />
                 </PageTransition>
               </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/public/:username"
-            element={
-              <PageTransition>
-                <PublicProfile />
-              </PageTransition>
             }
           />
           <Route
@@ -90,6 +121,9 @@ function AnimatedRoutes() {
               </ProtectedRoute>
             }
           />
+
+          {/* Fallback redirect */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AnimatePresence>
     </>
