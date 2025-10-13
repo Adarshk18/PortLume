@@ -293,7 +293,11 @@ body {
   }
 
   .hero-text h1 {
-    font-size: 2.4rem;
+    font-size: clamp(2.4rem, 5vw, 3.2rem); /* Reduced from 4.5rem */
+  margin-bottom: 20px;
+  line-height: 1.2;
+  font-weight: 800;
+  color: var(--color-white);
   }
 
   .hero-text p {

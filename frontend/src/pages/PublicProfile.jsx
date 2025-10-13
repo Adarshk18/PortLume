@@ -1,50 +1,47 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import API from '../services/api'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import api from '../services/api';
+import ProjectCard from '../components/ProjectCard';
 
-export default function PublicProfile() {
-  const { publicUrl } = useParams()
-  const [profile, setProfile] = useState(null)
+
+const PublicProfile = () => {
+  const { username } = useParams();
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
-    API.get(`/api/public/${publicUrl}`).then((r) => setProfile(r.data.profile))
-    API.post(`/api/track-view/${publicUrl}`).catch(() => {})
-  }, [publicUrl])
+    let mounted = true;
+    async function load() {
+      try {
+        const res = await api.get(`/portfolio/public/${username}`);
+        if (mounted) setData(res.data);
+      } catch (e) { console.error(e); }
+      finally { if (mounted) setLoading(false); }
+    }
+    load();
+    return () => { mounted = false; };
+  }, [username]);
 
-  if (!profile) return <div>Loading...</div>
+
+  if (loading) return <div className="p-8">Loading...</div>;
+  if (!data) return <div className="p-8">No public profile found.</div>;
+
 
   return (
-    <div className="max-w-3xl mx-auto bg-white/10 p-6 rounded-2xl">
-      <div className="flex items-center gap-4">
-        <img
-          src={profile.user.avatar}
-          alt="avatar"
-          className="w-24 h-24 rounded-full border-2 border-indigo-400"
-        />
-        <div>
-          <h1 className="text-2xl font-bold">{profile.user.displayName}</h1>
-          <p className="text-sm opacity-80">{profile.headline}</p>
-        </div>
-      </div>
+    <div className="p-8 max-w-5xl mx-auto">
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold">{data.name}</h1>
+        <p className="mt-2 text-lg text-slate-300">{data.about}</p>
+      </header>
 
-      <section className="mt-6">
-        <h3 className="font-semibold">About</h3>
-        <p className="mt-2 text-sm">{profile.about}</p>
-      </section>
 
-      <section className="mt-6">
-        <h3 className="font-semibold mb-2">Projects</h3>
-        <div className="space-y-3">
-          {profile.projects.map((p) => (
-            <div key={p.repoId} className="p-3 bg-white/5 rounded-lg">
-              <a href={p.url} target="_blank" rel="noreferrer" className="font-semibold">
-                {p.name}
-              </a>
-              <p className="text-sm mt-1">{p.description}</p>
-            </div>
-          ))}
-        </div>
+      <section className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {data.projects?.map((p) => <ProjectCard key={p._id || p.name} project={p} />)}
       </section>
     </div>
-  )
-}
+  );
+};
+
+
+export default PublicProfile;

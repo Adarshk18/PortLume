@@ -1,102 +1,59 @@
-import React, { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import API from '../services/api'
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  CartesianGrid,
-  Legend
-} from 'recharts'
+import React, { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
+import { motion } from "framer-motion";
 
-export default function Analytics() {
-  const [data, setData] = useState({
-    views: [],
-    aiUsage: [],
-    syncHistory: []
-  })
+const Analytics = () => {
+  const [analytics, setAnalytics] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    // Fetch analytics data (example endpoint)
+    const fetchAnalytics = async () => {
       try {
-        const r = await API.get('/api/analytics')
-        setData(r.data)
+        const res = await fetch("/api/portfolio/analytics");
+        const data = await res.json();
+        setAnalytics(data);
       } catch (err) {
-        console.error(err)
+        console.error("Error fetching analytics:", err);
       }
-    }
-    fetchData()
-  }, [])
-
-  const viewsData = data.views.map((v, i) => ({
-    day: `Day ${i + 1}`,
-    views: v
-  }))
-  const aiData = data.aiUsage.map((v, i) => ({
-    day: `Day ${i + 1}`,
-    uses: v
-  }))
-  const syncData = data.syncHistory.map((v, i) => ({
-    day: `Day ${i + 1}`,
-    syncs: v
-  }))
+    };
+    fetchAnalytics();
+  }, []);
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">Analytics Dashboard</h1>
+    <div className="min-h-screen bg-gradient-to-b from-[#1b1b33] to-[#2c2c54] text-gray-100">
+      <Navbar />
 
       <motion.div
-        className="grid md:grid-cols-2 gap-6"
+        className="max-w-5xl mx-auto p-6 mt-10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.4 }}
       >
-        {/* Profile Views */}
-        <div className="bg-white/10 rounded-xl p-5 shadow-lg">
-          <h2 className="text-xl font-semibold mb-2">Profile Views</h2>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={viewsData}>
-              <XAxis dataKey="day" stroke="#ccc" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="views" stroke="#10b981" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+        <h1 className="text-3xl font-bold mb-6">📈 Portfolio Analytics</h1>
 
-        {/* AI Usage */}
-        <div className="bg-white/10 rounded-xl p-5 shadow-lg">
-          <h2 className="text-xl font-semibold mb-2">AI Usage (Generations)</h2>
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={aiData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#555" />
-              <XAxis dataKey="day" stroke="#ccc" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="uses" fill="#6366f1" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* GitHub Syncs */}
-        <div className="bg-white/10 rounded-xl p-5 shadow-lg md:col-span-2">
-          <h2 className="text-xl font-semibold mb-2">GitHub Sync History</h2>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={syncData}>
-              <XAxis dataKey="day" stroke="#ccc" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="syncs" stroke="#a855f7" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+        {analytics ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="p-6 bg-[#232347] rounded-xl shadow-lg">
+              <p className="text-gray-400">Profile Views</p>
+              <h2 className="text-3xl font-bold">{analytics.views}</h2>
+            </div>
+            <div className="p-6 bg-[#232347] rounded-xl shadow-lg">
+              <p className="text-gray-400">Project Clicks</p>
+              <h2 className="text-3xl font-bold">{analytics.clicks}</h2>
+            </div>
+            <div className="p-6 bg-[#232347] rounded-xl shadow-lg">
+              <p className="text-gray-400">GitHub Repos</p>
+              <h2 className="text-3xl font-bold">{analytics.repos}</h2>
+            </div>
+          </div>
+        ) : (
+          <p className="text-gray-400 mt-10 text-center">
+            Loading analytics data or no analytics found.
+          </p>
+        )}
       </motion.div>
     </div>
-  )
-}
+  );
+};
+
+export default Analytics;
