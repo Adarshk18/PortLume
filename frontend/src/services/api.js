@@ -9,6 +9,19 @@ const API = axios.create({
   }
 })
 
+// src/services/api.js
+export const getPortfolioData = async (token) => {
+  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/portfolio/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Failed to load portfolio');
+  return data.data;
+};
+
+
 // Attach JWT token before every request
 API.interceptors.request.use(
   (config) => {

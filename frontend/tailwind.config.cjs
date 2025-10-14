@@ -1,15 +1,11 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './src/**/*.{js,jsx}'],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}", // <-- THIS IS CRITICAL
+  ],
   theme: {
-    extend: {
-      fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif']
-      },
-      colors: {
-        primary: '#6366f1',
-        secondary: '#9333ea'
-      }
-    }
+    extend: {},
   },
-  plugins: []
+  plugins: [],
 }
