@@ -13,7 +13,7 @@ const app = express();
 // Middlewares
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: process.env.FRONTEND_URL }));
+app.use(cors({ origin: process.env.FRONTEND_URL,credentials: true, }));
 app.use(morgan('dev'));
 
 // Passport (GitHub OAuth)

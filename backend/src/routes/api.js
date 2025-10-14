@@ -39,7 +39,7 @@ router.get('/portfolio/me', auth, async (req, res) => {
           portfolioPublished: !!portfolio.portfolioPublished,
         },
         chartData: portfolio.analyticsData || [],
-        publicUrl: `https://portlume.ai/${req.user.username}`,
+        publicUrl: `${process.env.FRONTEND_URL}/public/${req.user.username}`,
         lastSynced: portfolio.lastSynced || null,
       },
     });
