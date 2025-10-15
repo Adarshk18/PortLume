@@ -28,17 +28,27 @@ function ScrollToTop() {
 }
 
 // ✅ Animated route transitions
-const PageTransition = ({ children }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -10 }}
-    transition={{ duration: 0.3, ease: 'easeInOut' }}
-    className="min-h-screen bg-gradient-to-b from-[#1b1b33] to-[#2c2c54] text-gray-100"
-  >
-    {children}
-  </motion.div>
-);
+const PageTransition = ({ children }) => {
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith("/dashboard");
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className={`min-h-screen ${
+        isDashboard
+          ? "bg-gray-100 text-gray-900" // ✅ Light mode for dashboard
+          : "bg-gradient-to-b from-[#1b1b33] to-[#2c2c54] text-gray-100" // ✅ Dark mode for landing
+      }`}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 
 function AnimatedRoutes() {
   const location = useLocation();
