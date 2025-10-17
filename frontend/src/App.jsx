@@ -13,10 +13,9 @@ import ProfileEditor from './pages/ProfileEditor';
 import PublicProfile from './pages/PublicProfile';
 import Analytics from './pages/Analytics';
 import ProtectedRoute from './components/ProtectedRoute';
-import Navbar from './components/Navbar';
+
 import Login from './pages/Login'; // 👈 Added Login page
 import AuthSuccess from "./pages/AuthSuccess";
-import './App.css';
 
 // ✅ Scroll restoration on route change
 function ScrollToTop() {

@@ -11,13 +11,14 @@
   --font-family: 'Inter', sans-serif;
 }
 
-* {
+/* --- Reset only inside landing page --- */
+.landing-page * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
+.landing-page {
   font-family: var(--font-family);
   background-color: var(--color-dark);
   color: var(--color-text-light);
@@ -25,7 +26,7 @@ body {
 }
 
 /* --- Buttons --- */
-.btn {
+.landing-page .btn {
   padding: 12px 24px;
   border: none;
   border-radius: 8px;
@@ -35,40 +36,39 @@ body {
   font-size: 1rem;
 }
 
-.btn-primary {
+.landing-page .btn-primary {
   background: linear-gradient(135deg, var(--color-primary-start), var(--color-primary-end));
   color: var(--color-white);
   box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
 }
 
-.btn-primary:hover {
+.landing-page .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 0 25px rgba(56, 189, 248, 0.6);
 }
 
-.btn-login {
+.landing-page .btn-login {
   background: transparent;
   color: var(--color-text-light);
 }
 
-/* Hero CTA buttons */
-.btn-cta-primary {
+.landing-page .btn-cta-primary {
   padding: 15px 35px;
   font-size: 1.1rem;
 }
 
-.btn-cta-secondary {
+.landing-page .btn-cta-secondary {
   background: transparent;
   color: var(--color-text-light);
   border: 2px solid var(--color-text-light);
 }
 
-.btn-cta-secondary:hover {
+.landing-page .btn-cta-secondary:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
 /* --- Navbar --- */
-.navbar {
+.landing-page .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -80,7 +80,7 @@ body {
   z-index: 1000;
 }
 
-.navbar-logo {
+.landing-page .navbar-logo {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--color-white);
@@ -88,68 +88,54 @@ body {
   align-items: center;
 }
 
-.logo-icon {
+.landing-page .logo-icon {
   margin-right: 8px;
   font-size: 1.8rem;
 }
 
-.navbar-links {
+.landing-page .navbar-links {
   list-style: none;
   display: flex;
 }
 
-.navbar-links li a {
+.landing-page .navbar-links li a {
   text-decoration: none;
   color: var(--color-text-light);
   margin: 0 15px;
   font-size: 1rem;
-  transition: color 0.3s;
   position: relative;
   transition: all 0.3s ease;
 }
 
-.navbar-links li a:hover {
+.landing-page .navbar-links li a:hover {
   color: var(--color-secondary);
 }
 
-.navbar-links li a::after {
+.landing-page .navbar-links li a::after {
   content: '';
   position: absolute;
   width: 0;
   height: 2px;
   left: 0;
   bottom: -4px;
-  background: var(--color-secondary);
-  transition: width 0.3s;
-}
-
-/* Gradient hover effect for navbar links */
-.navbar-links li a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 0%;
-  height: 2px;
   background: linear-gradient(90deg, var(--color-primary-start), var(--color-primary-end));
   transition: width 0.3s ease;
 }
 
-.navbar-links li a:hover {
+.landing-page .navbar-links li a:hover {
   color: var(--color-white);
   text-shadow: 0 0 10px rgba(96, 165, 250, 0.7);
 }
 
-.navbar-links li a:hover::after {
+.landing-page .navbar-links li a:hover::after {
   width: 100%;
 }
 
-.navbar-actions button:first-child {
+.landing-page .navbar-actions button:first-child {
   margin-right: 15px;
 }
 
-/* Hamburger menu (hidden by default) */
-.menu-toggle {
+.landing-page .menu-toggle {
   display: none;
   background: none;
   color: var(--color-white);
@@ -159,7 +145,7 @@ body {
 }
 
 /* --- Hero Section --- */
-.hero-section {
+.landing-page .hero-section {
   position: relative;
   height: 90vh;
   display: flex;
@@ -168,7 +154,7 @@ body {
   padding: 0 5%;
 }
 
-.ai-background {
+.landing-page .ai-background {
   position: absolute;
   top: 0;
   left: 0;
@@ -187,7 +173,7 @@ body {
   100% { background-position: 100px 100px; }
 }
 
-.hero-content {
+.landing-page .hero-content {
   position: relative;
   z-index: 5;
   display: flex;
@@ -198,7 +184,7 @@ body {
   margin: 0 auto;
 }
 
-.hero-text {
+.landing-page .hero-text {
   flex: 1;
   max-width: 50%;
   opacity: 0;
@@ -206,7 +192,7 @@ body {
   animation: fadeInUp 1s ease forwards;
 }
 
-.hero-text h1 {
+.landing-page .hero-text h1 {
   font-size: 4.5rem;
   margin-bottom: 20px;
   line-height: 1.1;
@@ -214,19 +200,19 @@ body {
   color: var(--color-white);
 }
 
-.hero-text p {
+.landing-page .hero-text p {
   font-size: 1.3rem;
   margin-bottom: 40px;
   line-height: 1.6;
   color: var(--color-text-light);
 }
 
-.hero-actions {
+.landing-page .hero-actions {
   display: flex;
   gap: 20px;
 }
 
-.hero-visual {
+.landing-page .hero-visual {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -243,7 +229,7 @@ body {
   }
 }
 
-.visual-placeholder {
+.landing-page .visual-placeholder {
   width: 500px;
   height: 400px;
   background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(0,0,0,0.2));
@@ -259,7 +245,7 @@ body {
 
 /* --- Responsive Design --- */
 @media (max-width: 900px) {
-  .navbar-links {
+  .landing-page .navbar-links {
     display: none;
     flex-direction: column;
     background: rgba(26, 26, 46, 0.95);
@@ -271,40 +257,36 @@ body {
     text-align: right;
   }
 
-  .navbar-links.open {
+  .landing-page .navbar-links.open {
     display: flex;
   }
 
-  .menu-toggle {
+  .landing-page .menu-toggle {
     display: block;
   }
 
-  .navbar-actions {
+  .landing-page .navbar-actions {
     display: none;
   }
 
-  .hero-content {
+  .landing-page .hero-content {
     flex-direction: column;
     text-align: center;
   }
 
-  .hero-text {
+  .landing-page .hero-text {
     max-width: 100%;
   }
 
-  .hero-text h1 {
-    font-size: clamp(2.4rem, 5vw, 3.2rem); /* Reduced from 4.5rem */
-  margin-bottom: 20px;
-  line-height: 1.2;
-  font-weight: 800;
-  color: var(--color-white);
+  .landing-page .hero-text h1 {
+    font-size: clamp(2.4rem, 5vw, 3.2rem);
   }
 
-  .hero-text p {
+  .landing-page .hero-text p {
     font-size: 1rem;
   }
 
-  .visual-placeholder {
+  .landing-page .visual-placeholder {
     width: 80%;
     height: 240px;
     transform: none;
