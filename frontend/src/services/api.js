@@ -1,65 +1,39 @@
-import axios from 'axios'
-
-// Create API instance
-const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000',
-  withCredentials: true, // allows cookies if needed for OAuth
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
-
 // src/services/api.js
-export const getPortfolioData = async (token) => {
-  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/portfolio/me`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || 'Failed to load portfolio');
-  return data.data;
-};
+import axios from 'axios';
 
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000',
+  withCredentials: true,
+  headers: { 'Content-Type': 'application/json' },
+});
 
-// Attach JWT token before every request
+// attach token (supports both token keys to be safe)
 API.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('ap_token')
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
-    }
-    return config
+    const token = localStorage.getItem('token') || localStorage.getItem('ap_token');
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
   },
-  (error) => Promise.reject(error)
-)
+  (err) => Promise.reject(err)
+);
 
-// Global response interceptor
 API.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response) {
-      const { status } = error.response
-
-      // Handle unauthorized / expired token
+  (res) => res,
+  (err) => {
+    if (err.response) {
+      const { status } = err.response;
       if (status === 401 || status === 403) {
-        console.warn('Session expired. Logging out...')
-        localStorage.removeItem('ap_token')
-        // Redirect to GitHub login
-        const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5000'
-        window.location.href = `${apiBase}/auth/github`
-      }
-
-      // Optional: show toast or alert for server errors
-      if (status >= 500) {
-        console.error('Server error:', error.response.data)
+        localStorage.removeItem('token');
+        localStorage.removeItem('ap_token');
+        // fallback: redirect to login / GitHub OAuth
+        const apiBase = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+        window.location.href = `${apiBase}/auth/github`;
       }
     } else {
-      console.error('Network error or CORS issue:', error.message)
+      console.error('Network error', err.message);
     }
-
-    return Promise.reject(error)
+    return Promise.reject(err);
   }
-)
+);
 
-export default API
+export default API;
