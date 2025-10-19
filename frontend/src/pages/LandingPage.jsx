@@ -1,97 +1,159 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../LandingPage.css'; // This now safely affects only .landing-page
+// src/pages/LandingPage.jsx
+import React from "react";
+import { Bot, Zap } from "lucide-react";
+
+// Use your environment variable, with a fallback warning
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL || "YOUR_VITE_BACKEND_URL_HERE";
 
 const LandingPage = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const handleGitHubAuth = () => {
-    const backend = import.meta.env.VITE_BACKEND_URL;
-    window.location.href = `${backend}/auth/github`;
-  };
-
-  const scrollToSection = (id) => {
-    const element = document.querySelector(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  // Redirect to backend GitHub OAuth route
+  const handleGitHubLogin = () => {
+    if (BACKEND_URL && BACKEND_URL !== "YOUR_VITE_BACKEND_URL_HERE") {
+      window.location.href = `${BACKEND_URL}/auth/github`;
+    } else {
+      console.warn(
+        "Backend URL not configured. Please set VITE_BACKEND_URL in your .env file."
+      );
+      alert(
+        "Backend URL not configured. Please set VITE_BACKEND_URL in your .env file."
+      );
     }
   };
 
-  return (
-    <div className="landing-page">
-      {/* Navbar */}
-      <nav className="navbar">
-        <div
-          className="navbar-logo cursor-pointer"
-          onClick={() => navigate('/')}
-        >
-          <span className="logo-icon">🤖</span> PortLume AI
+  // --- Visual mockup of AI interface ---
+  const AIMockupVisual = () => (
+    <div className="relative w-full max-w-lg aspect-[1.3/1] rotate-[-5deg] transform transition-all duration-500 hover:rotate-0">
+      <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-slate-700/50">
+        <div className="absolute inset-2 bg-slate-800/20 rounded-xl border border-blue-400/30 overflow-hidden">
+          {/* Graph-like dot pattern */}
+          <svg
+            className="w-full h-full opacity-50 absolute top-0 left-0"
+            viewBox="0 0 100 100"
+          >
+            {[...Array(10)].map((_, i) =>
+              [...Array(10)].map((_, j) => (
+                <circle
+                  key={`${i}-${j}`}
+                  cx={10 + i * 9}
+                  cy={10 + j * 9}
+                  r={j % 3 === 0 ? 0.8 : 0.4}
+                  className="fill-blue-300"
+                />
+              ))
+            )}
+            <path
+              d="M10 10 L50 90 M90 10 L50 90 M50 50 L20 80 M70 30 L50 50"
+              className="stroke-blue-400/50 stroke-[0.3]"
+            />
+          </svg>
+
+          {/* Center label */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-mono text-xl tracking-wider">
+            <span className="flex items-center space-x-2 bg-slate-900/40 p-2 rounded-full px-4">
+              <Zap className="w-5 h-5 text-sky-400" />
+              <span>AI Portfolio Interface</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // --- Navbar ---
+  const NavBar = () => (
+    <header className="absolute top-0 left-0 w-full z-10 py-4 px-6 md:px-12">
+      <div className="flex justify-between items-center max-w-7xl mx-auto">
+        {/* Logo */}
+        <div className="flex items-center space-x-2 text-xl font-bold text-slate-800">
+          <Bot className="w-6 h-6 text-sky-500" />
+          <span>PortLume AI</span>
         </div>
 
-        {/* Desktop Links */}
-        <ul className={`navbar-links ${menuOpen ? 'open' : ''}`}>
-          <li><Link to="/dashboard">Dashboard</Link></li>
-          <li><a onClick={() => scrollToSection('#features')}>Features</a></li>
-          <li><a onClick={() => scrollToSection('#about')}>About Us</a></li>
-          <li><a onClick={() => scrollToSection('#contact')}>Contact</a></li>
-        </ul>
+        {/* Desktop navigation */}
+        <nav className="hidden md:flex space-x-8 text-slate-600 font-medium">
+          {["Dashboard", "Features", "About Us", "Contact"].map((item) => (
+            <a
+              key={item}
+              href="#"
+              className="hover:text-blue-600 transition duration-150"
+            >
+              {item}
+            </a>
+          ))}
+        </nav>
 
-        {/* Navbar Actions */}
-        <div className="navbar-actions">
-          <button onClick={handleGitHubAuth} className="btn btn-login">
+        {/* Buttons */}
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={handleGitHubLogin}
+            className="hidden lg:block text-slate-700 hover:text-blue-600 font-medium transition"
+          >
             Login
           </button>
-          <button onClick={handleGitHubAuth} className="btn btn-primary">
+          <button
+            onClick={handleGitHubLogin}
+            className="px-5 py-2 text-white font-semibold rounded-lg bg-gradient-to-r from-sky-500 to-blue-600 shadow-lg shadow-blue-500/50 hover:from-sky-600 hover:to-blue-700 transition transform hover:scale-[1.02] active:scale-95"
+          >
             Get Started Free
           </button>
         </div>
+      </div>
+    </header>
+  );
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="menu-toggle"
-          onClick={() => setMenuOpen((prev) => !prev)}
-          aria-label="Toggle navigation menu"
-        >
-          {menuOpen ? '✖' : '☰'}
-        </button>
-      </nav>
+  // --- Page Layout ---
+  return (
+    <div className="min-h-screen bg-white font-sans antialiased relative overflow-hidden">
+      <NavBar />
 
       {/* Hero Section */}
-      <header className="hero-section" aria-label="Hero Section">
-        <div className="ai-background"></div>
-
-        <div className="hero-content">
-          <div className="hero-text">
-            <h1>Revolutionize Your Portfolio. Effortlessly.</h1>
-            <p>
-              Harness the power of AI to create, manage, and optimize your professional
-              portfolio in minutes, not hours.
+      <main className="pt-24 md:pt-32 pb-16 md:pb-24 max-w-7xl mx-auto px-6 md:px-12 h-screen flex items-center justify-center">
+        <div className="grid md:grid-cols-2 gap-12 items-center w-full">
+          {/* Text */}
+          <div className="space-y-6">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 leading-tight">
+              Revolutionize <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-blue-600">
+                Your Portfolio.
+              </span>
+              <br />
+              Effortlessly.
+            </h1>
+            <p className="text-lg text-slate-600 max-w-xl">
+              Harness the power of AI to create, manage, and optimize your
+              professional portfolio in minutes, not hours.
             </p>
 
-            <div className="hero-actions">
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
               <button
-                onClick={handleGitHubAuth}
-                className="btn btn-primary btn-cta-primary"
+                onClick={handleGitHubLogin}
+                className="flex items-center justify-center px-8 py-3 text-lg font-semibold text-white rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 shadow-xl shadow-blue-500/30 hover:shadow-blue-500/50 transition transform hover:-translate-y-0.5"
               >
                 Start Building Your Portfolio
               </button>
               <button
-                onClick={() => scrollToSection('#features')}
-                className="btn btn-cta-secondary"
+                onClick={handleGitHubLogin}
+                className="flex items-center justify-center px-8 py-3 text-lg font-semibold text-blue-600 rounded-xl border-2 border-blue-500 bg-white hover:bg-blue-50 transition"
               >
                 See How It Works
               </button>
             </div>
           </div>
 
-          <div className="hero-visual">
-            <div className="visual-placeholder">
-              <p>AI Portfolio Visual Placeholder</p>
-            </div>
+          {/* Visual */}
+          <div className="flex justify-center md:justify-end">
+            <AIMockupVisual />
           </div>
         </div>
-      </header>
+      </main>
+
+      {/* Subtle background gradient */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="w-full h-full bg-gradient-to-br from-blue-50/70 via-white to-sky-100/50 opacity-60"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+      </div>
     </div>
   );
 };
