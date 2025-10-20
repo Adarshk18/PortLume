@@ -112,7 +112,7 @@ const LandingPage = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center w-full">
           {/* Text */}
           <div className="space-y-6">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 leading-tight">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-black leading-tight">
               Revolutionize <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-blue-600">
                 Your Portfolio.
@@ -149,11 +149,12 @@ const LandingPage = () => {
         </div>
       </main>
 
-      {/* Subtle background gradient */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+      {/* Subtle background gradient (fixed z-index) */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
         <div className="w-full h-full bg-gradient-to-br from-blue-50/70 via-white to-sky-100/50 opacity-60"></div>
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
       </div>
+
     </div>
   );
 };
