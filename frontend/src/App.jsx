@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
@@ -14,7 +13,6 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 function App() {
   return (
     <Router>
-      {/* NO WRAPPER — LET LANDING PAGE CONTROL BG */}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />

@@ -2,11 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Set the default font for the entire document and the dark background */
+/* ONLY the font – NO background-color! */
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #f3f4f6;
-  /* soft gray for glass effect */
   color: #111827;
-  /* slate-900 */
 }
