@@ -104,59 +104,58 @@ const LandingPage = () => {
 
   // --- Page Layout ---
   return (
-    <div className="min-h-screen bg-white font-sans antialiased relative overflow-hidden">
-      <NavBar />
+  <div className="min-h-screen font-sans antialiased relative overflow-hidden bg-gradient-to-r from-blue-50 via-sky-100 to-amber-50">
+    {/* Navbar */}
+    <NavBar />
 
-      {/* Hero Section */}
-      <main className="pt-24 md:pt-32 pb-16 md:pb-24 max-w-7xl mx-auto px-6 md:px-12 h-screen flex items-center justify-center">
-        <div className="grid md:grid-cols-2 gap-12 items-center w-full">
-          {/* Text */}
-          <div className="space-y-6">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-black leading-tight">
-              Revolutionize <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-blue-600">
-                Your Portfolio.
-              </span>
-              <br />
-              Effortlessly.
-            </h1>
-            <p className="text-lg text-slate-600 max-w-xl">
-              Harness the power of AI to create, manage, and optimize your
-              professional portfolio in minutes, not hours.
-            </p>
+    {/* Hero Section */}
+    <main className="pt-28 md:pt-36 pb-16 md:pb-24 max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-12">
+      {/* Left Content */}
+      <div className="flex-1 space-y-6 text-center md:text-left">
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 leading-tight">
+          Revolutionize <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-blue-600">
+            Your Portfolio.
+          </span>
+          <br />
+          Effortlessly.
+        </h1>
+        <p className="text-lg text-slate-700 max-w-xl mx-auto md:mx-0">
+          Harness the power of AI to create, manage, and optimize your
+          professional portfolio in minutes, not hours.
+        </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
-              <button
-                onClick={handleGitHubLogin}
-                className="flex items-center justify-center px-8 py-3 text-lg font-semibold text-white rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 shadow-xl shadow-blue-500/30 hover:shadow-blue-500/50 transition transform hover:-translate-y-0.5"
-              >
-                Start Building Your Portfolio
-              </button>
-              <button
-                onClick={handleGitHubLogin}
-                className="flex items-center justify-center px-8 py-3 text-lg font-semibold text-blue-600 rounded-xl border-2 border-blue-500 bg-white hover:bg-blue-50 transition"
-              >
-                See How It Works
-              </button>
-            </div>
-          </div>
-
-          {/* Visual */}
-          <div className="flex justify-center md:justify-end">
-            <AIMockupVisual />
-          </div>
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
+          <button
+            onClick={handleGitHubLogin}
+            className="flex items-center justify-center px-8 py-3 text-lg font-semibold text-white rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 shadow-lg hover:shadow-sky-500/40 transition transform hover:-translate-y-0.5"
+          >
+            Start Building Your Portfolio
+          </button>
+          <button
+            onClick={handleGitHubLogin}
+            className="flex items-center justify-center px-8 py-3 text-lg font-semibold text-blue-600 rounded-xl border-2 border-blue-500 bg-white hover:bg-blue-50 transition"
+          >
+            See How It Works
+          </button>
         </div>
-      </main>
-
-      {/* Subtle background gradient (fixed z-index) */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-        <div className="w-full h-full bg-gradient-to-br from-blue-50/70 via-white to-sky-100/50 opacity-60"></div>
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
       </div>
 
+      {/* Right Visual */}
+      <div className="flex-1 flex justify-center md:justify-end">
+        <AIMockupVisual />
+      </div>
+    </main>
+
+    {/* Gradient glows */}
+    <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+      <div className="absolute top-10 left-20 w-[30rem] h-[30rem] bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+      <div className="absolute bottom-10 right-20 w-[25rem] h-[25rem] bg-sky-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default LandingPage;
