@@ -14,7 +14,9 @@ router.get(
     // Issue JWT and redirect to frontend with token
     const payload = { id: req.user._id };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' });
-    const redirect = `${process.env.FRONTEND_URL}/auth/success?token=${token}`;
+    
+    // FIXED: Changed /auth/success to /auth-success
+    const redirect = `${process.env.FRONTEND_URL}/auth-success?token=${token}`;
     res.redirect(redirect);
   }
 );

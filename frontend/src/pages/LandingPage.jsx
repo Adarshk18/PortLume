@@ -1,11 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check if user is logged in
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    window.location.reload();
+  };
+
+  const handleGetStarted = () => {
+    if (isLoggedIn) {
+      navigate('/dashboard');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleLogin = () => {
+    navigate('/login');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-200 via-blue-100 to-orange-100 overflow-hidden">
       {/* ---------- Header ---------- */}
       <header className="relative z-10 flex items-center justify-between px-8 py-6 md:px-16">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
           {/* Robot Icon */}
           <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -22,19 +51,46 @@ const LandingPage = () => {
         </div>
 
         <nav className="hidden md:flex items-center gap-8 text-gray-700 font-medium text-sm">
-          <a href="/dashboard" className="hover:text-gray-900 transition">Dashboard</a>
-          <a href="#" className="hover:text-gray-900 transition">Features</a>
-          <a href="#" className="hover:text-gray-900 transition">About Us</a>
-          <a href="#" className="hover:text-gray-900 transition">Contact</a>
+          <button onClick={() => navigate('/dashboard')} className="hover:text-gray-900 transition">
+            Dashboard
+          </button>
+          <a href="#features" className="hover:text-gray-900 transition">Features</a>
+          <a href="#about" className="hover:text-gray-900 transition">About Us</a>
+          <a href="#contact" className="hover:text-gray-900 transition">Contact</a>
         </nav>
 
         <div className="flex items-center gap-4">
-          <a href="/login" className="hidden md:block text-gray-700 font-medium text-sm hover:text-gray-900 transition">
-            Login
-          </a>
-          <button className="bg-sky-500 text-white px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-sky-600 transition shadow-md">
-            Get Started Free
-          </button>
+          {!isLoggedIn ? (
+            <>
+              <button 
+                onClick={handleLogin}
+                className="hidden md:block text-gray-700 font-medium text-sm hover:text-gray-900 transition"
+              >
+                Login
+              </button>
+              <button 
+                onClick={handleGetStarted}
+                className="bg-sky-500 text-white px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-sky-600 transition shadow-md"
+              >
+                Get Started Free
+              </button>
+            </>
+          ) : (
+            <>
+              <button 
+                onClick={() => navigate('/dashboard')}
+                className="hidden md:block text-gray-700 font-medium text-sm hover:text-gray-900 transition"
+              >
+                Dashboard
+              </button>
+              <button 
+                onClick={handleLogout}
+                className="bg-red-500 text-white px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-red-600 transition shadow-md"
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
       </header>
 
@@ -54,8 +110,11 @@ const LandingPage = () => {
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <button className="bg-sky-400 text-white px-8 py-3.5 rounded-lg font-semibold text-base hover:bg-sky-500 transition shadow-lg">
-              Start Building Your Portfolio
+            <button 
+              onClick={handleGetStarted}
+              className="bg-sky-400 text-white px-8 py-3.5 rounded-lg font-semibold text-base hover:bg-sky-500 transition shadow-lg"
+            >
+              {isLoggedIn ? 'Go to Dashboard' : 'Start Building Your Portfolio'}
             </button>
             <button className="bg-white text-gray-700 px-8 py-3.5 rounded-lg font-semibold text-base hover:bg-gray-50 transition shadow-md border border-gray-200">
               See How It Works
