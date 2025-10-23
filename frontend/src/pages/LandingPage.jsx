@@ -78,12 +78,6 @@ const LandingPage = () => {
           ) : (
             <>
               <button 
-                onClick={() => navigate('/dashboard')}
-                className="hidden md:block text-gray-700 font-medium text-sm hover:text-gray-900 transition"
-              >
-                Dashboard
-              </button>
-              <button 
                 onClick={handleLogout}
                 className="bg-red-500 text-white px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-red-600 transition shadow-md"
               >
@@ -98,7 +92,7 @@ const LandingPage = () => {
       <section className="relative z-10 flex flex-col lg:flex-row items-center justify-between px-8 py-12 md:px-16 lg:px-24 xl:px-32 gap-16 max-w-7xl mx-auto">
         {/* Text */}
         <div className="max-w-xl">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-gray-900 leading-none tracking-tight">
+          <h1 className="text-4xl md:text-7xl lg:text-8xl font-black text-gray-900 leading-none tracking-tight">
             Revolutionize<br />
             Your Portfolio.<br />
             Effortlessly.
