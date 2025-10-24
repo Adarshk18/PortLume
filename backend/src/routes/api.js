@@ -29,6 +29,9 @@ router.post(
   portfolioController.uploadResume
 );
 
+router.post('/portfolio/sync', auth, portfolioController.syncGithub);
+
+
 // Sync GitHub data (repositories, commits, etc.)
 router.post('/sync-github', auth, portfolioController.syncGithub);
 

@@ -157,8 +157,9 @@ module.exports = {
   // ========================================================
   publishPortfolio: async (req, res) => {
     try {
-      const { publicUrl } = req.body;
+      const { publicUrl } = req.body || {};
       if (!publicUrl)
+        console.error("❌ publishPortfolio: Missing publicUrl in req.body");
         return res.status(400).json({ ok: false, message: 'Public URL is required' });
 
       const normalized = publicUrl.trim().toLowerCase().replace(/[^a-z0-9\-]/g, '-');
