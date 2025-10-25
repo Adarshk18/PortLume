@@ -2,6 +2,7 @@ require('dotenv').config();
 const http = require('http');
 const app = require('./app');
 const connectDB = require('./config/db');
+const userRoutes = require('./routes/userRoutes');
 
 // Create HTTP server from Express app
 const server = http.createServer(app);
@@ -38,6 +39,8 @@ io.on('connection', (socket) => {
     console.log('🔴 Socket disconnected:', socket.id);
   });
 });
+
+app.use('/api/user', userRoutes);
 
 // Port setup
 const PORT = process.env.PORT || 5000;
