@@ -175,7 +175,7 @@ export default function Dashboard() {
                   <path d="M8 14 Q12 16 16 14" stroke="white" strokeWidth="2" fill="none"/>
                 </svg>
               </div>
-              <div className="font-bold text-lg text-slate-800">AutoPortfolio AI</div>
+              <div className="font-bold text-lg text-slate-800">PortLume AI</div>
             </div>
 
             <nav className="space-y-2 mb-8">
@@ -218,7 +218,7 @@ export default function Dashboard() {
               </button>
             </nav>
 
-            <button className="w-full bg-gradient-to-r from-orange-400 to-orange-500 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+            <button className="bg-gradient-to-r from-blue-500 to-orange-500 text-white font-semibold px-14 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 disabled:opacity-50">
               Upgrade to Pro
               <TrendingUp size={18} />
             </button>
